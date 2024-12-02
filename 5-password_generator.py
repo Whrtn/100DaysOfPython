@@ -22,13 +22,7 @@ for symbol in range(0, nr_symbols):
     generated_symbol = symbols[random.randint(0, len(symbols) - 1)]
     password.append(generated_symbol)
 
-for character in range(0, len(password)):
-    random_index = random.randint(0, len(password) - 1)
-    sorted_password.append(password[random_index])
-    password.pop(random_index)
+random.shuffle(password)
+password = ''.join(password)
+print(f"Your password is: {password}")
 
-final_password = ''
-for char in sorted_password:
-    final_password += char
-
-print(final_password)
