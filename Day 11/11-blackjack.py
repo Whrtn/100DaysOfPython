@@ -4,8 +4,12 @@ import os
 os.system("cls")
 card = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
-def generate_random_card():
-    return card[random.randint(0, len(card) - 1)]
+def generate_random_card(score):
+    random_card = card[random.randint(0, len(card) - 1)]
+    if random_card == 11 and (random_card + score) > 21:
+        return 1
+    else:
+        return random_card
 
 def is_player_bust(player_score):
     if player_score > 21:
@@ -31,9 +35,11 @@ while play_blackjack != 'y' and play_blackjack != 'n':
     elif play_blackjack == 'y':
         players_cards = []
         computers_cards = []
-        players_cards.append(generate_random_card())
-        players_cards.append(generate_random_card())
-        computers_cards.append(generate_random_card())
+        player_score = 0
+        computer_score = 0
+        players_cards.append(generate_random_card(sum(players_cards)))
+        players_cards.append(generate_random_card(sum(players_cards)))
+        computers_cards.append(generate_random_card(sum(computers_cards)))
         game_in_progress = True
         while game_in_progress:
             print(f"Your cards: {players_cards}, current score: {sum(players_cards)}")
@@ -42,7 +48,7 @@ while play_blackjack != 'y' and play_blackjack != 'n':
             while draw_card != 'y' and draw_card != 'n':
                 draw_card = input("Type 'y' to get another card, type 'n' to pass: ")
                 if draw_card == 'y':
-                    players_cards.append(generate_random_card())
+                    players_cards.append(generate_random_card(sum(players_cards)))
                     if is_player_bust(sum(players_cards)) == True:
                         print(f"Your cards: {players_cards}, Final score: {sum(players_cards)}")
                         print(f"Computer's final hand: {sum(computers_cards)}")
@@ -50,7 +56,7 @@ while play_blackjack != 'y' and play_blackjack != 'n':
                         game_in_progress = False
                 elif draw_card == 'n':
                     while sum(computers_cards) < 17:
-                        computers_cards.append(generate_random_card())
+                        computers_cards.append(generate_random_card(sum(computers_cards)))
                     if sum(computers_cards) > 21:
                         print(f"Your cards: {players_cards}, Your final score: {sum(players_cards)}")
                         print(f"Computer's final hand: {computers_cards}, Computers final score {sum(computers_cards)}")
